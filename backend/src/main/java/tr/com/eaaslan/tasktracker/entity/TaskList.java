@@ -1,51 +1,39 @@
 package tr.com.eaaslan.tasktracker.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-@Entity
 @Table
-@Getter
-@Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Task {
+@Getter
+@Setter
+public class TaskList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(unique = true, nullable = false, updatable = false)
     private UUID id;
 
     @Column(nullable = false)
     private String title;
 
-    @Column()
+    @Column(nullable = true)
     private String description;
-
-    @Column(name = "due_date")
-    private LocalDateTime dueDate;
-
-    @Column(nullable = false)
-    private TaskStatus status;
-
-    @Column(nullable = false)
-    private TaskPriority taskPriority;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false )
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @ManyToOne()
-    @JoinColumn(name = "task_list_id") // its already set "task_list_id " on default
-    private TaskList taskList;
+    @OneToMany(mappedBy = "taskList",cascade = CascadeType.ALL)
+    private List<Task> tasks;
 
     @PrePersist
     protected void onCreate() {
@@ -56,6 +44,6 @@ public class Task {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
-    }
 
+    }
 }
