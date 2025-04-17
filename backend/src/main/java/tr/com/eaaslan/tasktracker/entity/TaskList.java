@@ -17,9 +17,9 @@ import java.util.UUID;
 public class TaskList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false, updatable = false)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;

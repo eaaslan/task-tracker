@@ -1,21 +1,16 @@
 package tr.com.eaaslan.tasktracker.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tr.com.eaaslan.tasktracker.entity.Dto.TaskListDto;
 import tr.com.eaaslan.tasktracker.entity.TaskList;
 import tr.com.eaaslan.tasktracker.mapper.TaskListMapper;
-import tr.com.eaaslan.tasktracker.mapper.TaskMapper;
 import tr.com.eaaslan.tasktracker.repository.TaskListRepository;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class TaskListService {
-
 
     private final TaskListMapper taskListMapper;
     private final TaskListRepository taskListRepository;
@@ -36,14 +31,14 @@ public class TaskListService {
     }
 
     //TODO create custom exception handler and return 404 instead 500
-    public TaskListDto getTaskListById(UUID id) {
+    public TaskListDto getTaskListById(Long id) {
       return taskListRepository.findById(id)
               .map(taskListMapper::toDto)
               .orElseThrow(()->new EntityNotFoundException("TaskList not found with id: "+id));
     }
 
-    public TaskListDto updateTaskList(UUID taskListUuid, TaskListDto taskListDto) {
-        TaskList entity= taskListRepository.findById(taskListUuid).orElseThrow();
+    public TaskListDto updateTaskList(TaskListDto taskListDto) {
+        TaskList entity= taskListRepository.findById(taskListDto.id()).orElseThrow();
         TaskList updatedEntity= taskListMapper.fromDto(taskListDto);
         if(entity.getTasks()==null){
             entity.setTasks(updatedEntity.getTasks());

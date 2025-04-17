@@ -5,5 +5,5 @@ import tr.com.eaaslan.tasktracker.entity.TaskList;
 
 import java.util.UUID;
 
-public interface TaskListRepository extends JpaRepository<TaskList, UUID> {
+public interface TaskListRepository extends JpaRepository<TaskList, Long> {
 }

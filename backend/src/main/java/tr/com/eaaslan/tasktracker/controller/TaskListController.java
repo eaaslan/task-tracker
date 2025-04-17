@@ -28,7 +28,7 @@ public class TaskListController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskListDto> getTaskListById(@PathVariable UUID id){
+    public ResponseEntity<TaskListDto> getTaskListById(@PathVariable Long id){
         return ResponseEntity.ok(taskListService.getTaskListById(id));
     }
 
@@ -39,8 +39,8 @@ public class TaskListController {
         return ResponseEntity.created(location).body(created);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TaskListDto>updateTaskList(@RequestBody TaskListDto taskListDto, @PathVariable UUID id){
-        return ResponseEntity.ok(taskListService.updateTaskList(id,taskListDto));
+    @PutMapping
+    public ResponseEntity<TaskListDto>updateTaskList(@RequestBody TaskListDto taskListDto){
+        return ResponseEntity.ok(taskListService.updateTaskList(taskListDto));
     }
 }
