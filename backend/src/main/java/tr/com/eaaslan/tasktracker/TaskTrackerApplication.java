@@ -26,24 +26,26 @@ public class TaskTrackerApplication {
     CommandLineRunner commandLineRunner(TaskListRepository taskListRepository,TaskRepository taskRepository1) {
         return args -> {
 
-//
-//                TaskList taskList = TaskList.builder()
-//                        .title("Task Tracker")
-//                        .build();
-//
-//            taskListRepository.save(taskList);
-//
-//            Task task = Task.builder()
-//                    .taskList(taskList)
-//                    .title("Task Title")
-//                    .taskPriority(TaskPriority.HIGH)
-//                    .status(TaskStatus.OPEN)
-//                    .build();
-//
-//           taskRepository1.save(task);
+
+                TaskList taskList = TaskList.builder()
+                        .title("Task Tracker10")
+                        .build();
+
+            taskListRepository.save(taskList);
+
+
+
+            Task task = Task.builder()
+                    .taskList(taskList)
+                    .title("Task Title")
+                    .taskPriority(TaskPriority.HIGH)
+                    .status(TaskStatus.OPEN)
+                    .build();
+
+           taskRepository1.save(task);
 
           //  taskListRepository.deleteAll();
-            taskRepository1.deleteAll();
+//            taskRepository1.deleteAll();
         };
     }
 }

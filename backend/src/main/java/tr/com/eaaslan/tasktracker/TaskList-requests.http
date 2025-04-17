@@ -1,0 +1,29 @@
+###
+POST http://localhost:8080/task-list
+Content-Type: application/json
+
+{
+
+  "title": "task list 5"
+
+
+}
+
+###
+GET http://localhost:8080/task-list
+Content-Type: application/json
+
+###
+@id=bc20f8ff-89ca-4c7a-aae7-002d36e5553b
+GET http://localhost:8080/task-list/{{id}}
+
+
+###
+
+PUT http://localhost:8080/task-list/{{id}}
+Content-Type: application/json
+
+{
+  "title": "Updated title",
+  "description": "Updated description"
+}

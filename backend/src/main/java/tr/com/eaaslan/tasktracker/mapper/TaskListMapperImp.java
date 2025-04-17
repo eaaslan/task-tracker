@@ -1,5 +1,6 @@
 package tr.com.eaaslan.tasktracker.mapper;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 import tr.com.eaaslan.tasktracker.entity.Dto.TaskListDto;
 import tr.com.eaaslan.tasktracker.entity.Task;
@@ -24,9 +25,22 @@ public class TaskListMapperImp implements TaskListMapper{
                     tasklist.getTitle(),
                     tasklist.getDescription(),
                     tasklist.getTasks().size(),
-                    (double) ((tasklist.getTasks().stream().filter(task-> task.getStatus()== TaskStatus.CLOSED).count())/tasklist.getTasks().size()),
+                    calculateProgress(tasklist),
                     tasklist.getTasks().stream().map(taskMapper::toDto).toList()
             );
+    }
+
+    double calculateProgress(TaskList tasklist) {
+      return Optional.ofNullable(tasklist.getTasks()) // use nullable to prevent throw exception
+                .map(tasks ->{
+                        long closedCount= tasks.stream()
+                                .filter(task -> task.getStatus()==TaskStatus.CLOSED)
+                                .count();
+                            return (double)closedCount/ tasks.size();
+                        }
+                )
+                .orElse(0.0);
+
     }
 
     @Override
