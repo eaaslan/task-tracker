@@ -1,16 +1,31 @@
-import { fetchTaskLists } from '../api/taskListApi.js';
+import { fetchTaskLists } from "../api/taskListApi.js";
 
-export function renderTaskListsPage() {
-  $('#app').html('<h1>Task Lists</h1><div id="task-list-container"></div>');
+export async function renderTaskListsPage() {
+  try {
+    const data = await fetchTaskLists();
+    // Clear existing content first
+    $(".taskList-items").empty();
 
-  fetchTaskLists().then(taskLists => {
-    taskLists.forEach(list => {
-      $('#task-list-container').append(`
-        <div class="task-list">
-          <h3>${list.title}</h3>
-          <p>${list.description || ''}</p>
-        </div>
-      `);
-    });
-  });
+    if (data && data.length > 0) {
+      data.forEach((taskList) => {
+        const currentTaskList = /* HTML */ `
+          <div class="taskList" data-id="${taskList.id}">
+            <div class="title">${taskList.title}</div>
+            <div class="actions"></div>
+          </div>
+        `;
+        $(".taskList-items").append(currentTaskList);
+      });
+    } else {
+      $(".taskList-items").html(
+        "<p>No task lists found. Create one to get started!</p>"
+      );
+    }
+  } catch (error) {
+    console.error("Error rendering task lists:", error);
+
+    $(".taskList-items").html(
+      '<p class="error">Failed to load task lists. Please try again.</p>'
+    );
+  }
 }
